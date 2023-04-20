@@ -9,6 +9,8 @@ module.exports = {
     rules: {
         '@typescript-eslint/no-non-null-assertion': 'warn',
         '@typescript-eslint/no-floating-promises': 'off',
+        '@typescript-eslint/no-unsafe-argument': 'off',
+        '@typescript-eslint/no-explicit-any': 'off',
     },
     parserOptions: {
         project: true,

@@ -1,7 +1,21 @@
 # Telegram bot - [SweetVibesBot](https://t.me/SweetVibesBot)
 
-![Bot logo](public/applause-logo.avif)
+<div style="float: left;">
 
-[About the bot](public/description.md)
+### Public
 
-[List of available commands](public/commands.md)
+-   [About the bot](public/description.md)
+-   [List of available commands](public/commands.md)
+
+---
+
+### Development
+
+-   [TODOs](public/TODOs.md)
+
+</div>
+
+<img style="float: right;" src="public/applause-logo.avif" alt="Logo" width="500">
+
+<!-- End split screen -->
+<div style="clear: both;">

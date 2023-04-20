@@ -11,6 +11,8 @@ const bot = new Telegraf(process.env.BOT_TOKEN);
 
 // HANDLERS
 bot.start((ctx) => {
+    console.log(`${ctx.from.first_name} started the bot`);
+
     ctx.reply(
         `Hi ${ctx.from.first_name}! Would you like getting a compliment?`,
         Markup.inlineKeyboard([{ callback_data: 'get_compliment', text: 'Yes pleeese!' }])
@@ -18,6 +20,8 @@ bot.start((ctx) => {
 });
 
 bot.on('callback_query', async (ctx) => {
+    console.log(`${ctx.from?.first_name ?? 'Someone'} asked for a compliment`);
+
     if (ctx.callbackQuery) ctx.answerCbQuery();
 
     const compliment = await getCompliment();
@@ -26,6 +30,8 @@ bot.on('callback_query', async (ctx) => {
 
 // launch the bot
 bot.launch();
+
+bot.catch((err) => console.error(err));
 
 // enable graceful stop
 process.once('SIGINT', () => bot.stop('SIGINT'));
