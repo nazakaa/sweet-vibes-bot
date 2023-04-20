@@ -16,3 +16,5 @@ export const getTranslatedComliment = async (
     const _translationOptions: DeeplRequest = { ...translationOptions, text: randomCompliment, target_lang: language };
     await translate(_translationOptions);
 };
+
+export default getTranslatedComliment;

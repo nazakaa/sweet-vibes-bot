@@ -19,8 +19,3 @@ export const translate = async (deeplParams: DeeplRequest) => {
 };
 
 export default translate;
-
-// translate({
-//     target_lang: 'UK',
-//     text: 'You have completely divine thighs',
-// }).then((data) => console.log(data));
