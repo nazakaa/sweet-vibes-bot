@@ -4,7 +4,7 @@ import { DeeplRequest, DeeplSupportedLanguages } from '../deepl/types';
 
 type DeeplRequestWithoutTextAndTargetLanguage = Omit<DeeplRequest, 'text' | 'target_lang'>;
 
-export const getTranslatedComliment = async (
+export const getTranslatedCompliment = async (
     language: DeeplSupportedLanguages,
     translationOptions?: DeeplRequestWithoutTextAndTargetLanguage
 ) => {
@@ -14,7 +14,7 @@ export const getTranslatedComliment = async (
     if (language === 'EN') return randomCompliment;
 
     const _translationOptions: DeeplRequest = { ...translationOptions, text: randomCompliment, target_lang: language };
-    await translate(_translationOptions);
+    return await translate(_translationOptions);
 };
 
-export default getTranslatedComliment;
+export default getTranslatedCompliment;

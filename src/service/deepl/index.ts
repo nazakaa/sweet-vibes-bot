@@ -1,5 +1,9 @@
 import axios from 'axios';
 import { DeeplRequest, DeeplResponse } from './types';
+import dotenv from 'dotenv';
+
+// initialize environment variables
+dotenv.config();
 
 const DEEPL_API_KEY = process.env.DEEPL_API_KEY;
 if (!DEEPL_API_KEY) throw new Error('DEEPL_API_KEY is not defined');
