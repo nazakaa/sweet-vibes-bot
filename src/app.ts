@@ -3,6 +3,9 @@ import dotenv from 'dotenv';
 import getTranslatedCompliment from './service/translatedCompliment';
 import { isDev } from './utils/env';
 import getLocalizedText from './service/localePicker';
+import { Locale } from './service/localePicker/types';
+
+const LOCALE: Locale = 'ua';
 
 // initialize environment variables
 dotenv.config();
@@ -19,14 +22,15 @@ bot.use(async (ctx, next) => {
 
     if (!process.env.DEVELOPER_TELEGRAM_ID) throw new Error('DEVELOPER_TELEGRAM_ID is not defined');
     if (ctx.from?.id === parseInt(process.env.DEVELOPER_TELEGRAM_ID)) return next();
+
     console.log(`${ctx.from?.first_name ?? 'Someone'} tried to use the bot during development but was not allowed`);
 });
 
 bot.start((ctx) => {
     console.log(`${ctx.from.first_name} started the bot`);
 
-    const welcomeMsg = getLocalizedText('en', 'common')('welcome', { replace: { who: ctx.from.first_name } });
-    const iWantCompliment = getLocalizedText('en', 'common')('i_want_compliment_button');
+    const welcomeMsg = getLocalizedText(LOCALE, 'common')('welcome', { replace: { who: ctx.from.first_name } });
+    const iWantCompliment = getLocalizedText(LOCALE, 'common')('i_want_compliment_button');
 
     ctx.reply(welcomeMsg, Markup.inlineKeyboard([{ callback_data: 'get_compliment', text: iWantCompliment }]));
 });
@@ -36,9 +40,9 @@ bot.on('callback_query', async (ctx) => {
 
     if (ctx.callbackQuery) ctx.answerCbQuery();
 
-    const compliment = await getTranslatedCompliment('EN');
+    const compliment = await getTranslatedCompliment(LOCALE);
 
-    const getAnotherCompliment = getLocalizedText('en', 'common')('get_another_compliment_button');
+    const getAnotherCompliment = getLocalizedText(LOCALE, 'common')('get_another_compliment_button');
 
     ctx.reply(compliment, Markup.inlineKeyboard([{ callback_data: 'get_compliment', text: getAnotherCompliment }]));
 });

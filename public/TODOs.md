@@ -2,13 +2,11 @@
 
 ### Current Backend tasks:
 
--   translate compliments (pobably using [Google Translate API](https://cloud.google.com/translate/docs))
 -   schedule jobs (e.g sending a compliment every 3 hours)
--   fix `eslint` errors
+-   bring in jokes api
 
 ### Current Frontend tasks:
 
--   translate the app to other languages (probably using [i18next](https://www.i18next.com/))
 -   `exit` command
 -   add settings page:
     -   language (en / ua)
