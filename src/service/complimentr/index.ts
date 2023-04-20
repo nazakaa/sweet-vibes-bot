@@ -1,5 +1,5 @@
 import axios from 'axios';
-import capitalize from '../utils/capitalize';
+import capitalize from '../../utils/capitalize';
 
 interface ComplimentrResponse {
     compliment: string;

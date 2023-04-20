@@ -2,7 +2,7 @@
  * Language codes and their full names.
  * @see https://www.deepl.com/docs-api/translating-text/request/
  */
-type DeeplSupportedLanguages =
+export type DeeplSupportedLanguages =
     | 'BG' // Bulgarian
     | 'CS' // Czech
     | 'DA' // Danish
