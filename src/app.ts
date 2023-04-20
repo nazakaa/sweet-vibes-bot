@@ -1,6 +1,7 @@
 import { Markup, Telegraf } from 'telegraf';
 import dotenv from 'dotenv';
-import getCompliment from './service/complimentr-api';
+import getTranslatedCompliment from './service/translatedCompliment';
+import { isDev } from './utils/env';
 
 // initialize environment variables
 dotenv.config();
@@ -10,6 +11,16 @@ if (!process.env.BOT_TOKEN) throw new Error('BOT_TOKEN is not defined');
 const bot = new Telegraf(process.env.BOT_TOKEN);
 
 // HANDLERS
+
+bot.use(async (ctx, next) => {
+    // blocks all users except the developer if environment is development
+    if (!isDev) return next();
+
+    if (!process.env.DEVELOPER_TELEGRAM_ID) throw new Error('DEVELOPER_TELEGRAM_ID is not defined');
+    if (ctx.from?.id === parseInt(process.env.DEVELOPER_TELEGRAM_ID)) return next();
+    console.log(`${ctx.from?.first_name ?? 'Someone'} tried to use the bot during development but was not allowed`);
+});
+
 bot.start((ctx) => {
     console.log(`${ctx.from.first_name} started the bot`);
 
@@ -24,7 +35,7 @@ bot.on('callback_query', async (ctx) => {
 
     if (ctx.callbackQuery) ctx.answerCbQuery();
 
-    const compliment = await getCompliment();
+    const compliment = await getTranslatedCompliment('EN');
     ctx.reply(compliment, Markup.inlineKeyboard([{ callback_data: 'get_compliment', text: 'Get another one' }]));
 });
 
