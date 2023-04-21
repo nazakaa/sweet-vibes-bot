@@ -2,8 +2,8 @@ import { Markup, Telegraf } from 'telegraf';
 import dotenv from 'dotenv';
 import getTranslatedCompliment from './service/translatedCompliment';
 import { isDev } from './utils/env';
-import getLocalizedText from './service/localePicker';
-import { Locale } from './service/localePicker/types';
+import t from './service/locales';
+import { Locale } from './service/locales/types';
 
 const LOCALE: Locale = 'ua';
 
@@ -29,8 +29,8 @@ bot.use(async (ctx, next) => {
 bot.start((ctx) => {
     console.log(`${ctx.from.first_name} started the bot`);
 
-    const welcomeMsg = getLocalizedText(LOCALE, 'common')('welcome', { replace: { who: ctx.from.first_name } });
-    const iWantCompliment = getLocalizedText(LOCALE, 'common')('i_want_compliment_button');
+    const welcomeMsg = t(LOCALE, 'common', 'welcome', { who: ctx.from.first_name });
+    const iWantCompliment = t(LOCALE, 'common', 'i_want_compliment_button');
 
     ctx.reply(welcomeMsg, Markup.inlineKeyboard([{ callback_data: 'get_compliment', text: iWantCompliment }]));
 });
@@ -42,7 +42,7 @@ bot.on('callback_query', async (ctx) => {
 
     const compliment = await getTranslatedCompliment(LOCALE);
 
-    const getAnotherCompliment = getLocalizedText(LOCALE, 'common')('get_another_compliment_button');
+    const getAnotherCompliment = t(LOCALE, 'common', 'get_another_compliment_button');
 
     ctx.reply(compliment, Markup.inlineKeyboard([{ callback_data: 'get_compliment', text: getAnotherCompliment }]));
 });
