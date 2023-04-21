@@ -1,5 +1,5 @@
 {
-    "welcome": "Хелоу {{who}}! Є бажання отримати комплімент?",
+    "welcome": "Хелоу {who}! Є бажання отримати комплімент?",
     "get_another_compliment_button": "Хочу ще один!",
     "i_want_compliment_button": "Звичайно!"
 }
