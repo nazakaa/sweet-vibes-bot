@@ -1,7 +1,7 @@
 import commonEN from '../../locales/commonEN.json';
 import commonUA from '../../locales/commonUA.json';
 
-export const LOCALES_MAPPING = {
+export const LOCALE_MAP = {
     en: {
         common: commonEN,
     },
@@ -10,4 +10,4 @@ export const LOCALES_MAPPING = {
     },
 } as const;
 
-export default LOCALES_MAPPING;
+export default LOCALE_MAP;

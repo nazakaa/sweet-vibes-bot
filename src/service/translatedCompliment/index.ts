@@ -1,7 +1,7 @@
 import getCompliment from '../complimentr';
 import translate from '../deepl';
 import { DeeplRequest, DeeplSupportedLanguages } from '../deepl/types';
-import { Locale } from '../localePicker/types';
+import { Locale } from '../locales/types';
 
 type DeeplRequestWithoutTextAndTargetLanguage = Omit<DeeplRequest, 'text' | 'target_lang'>;
 
