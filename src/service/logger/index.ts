@@ -1,5 +1,5 @@
 import winston, { createLogger, format, transports } from 'winston';
-import TelegramTransport from 'winston-telegram';
+// import TelegramTransport from 'winston-telegram';
 import dotenv from 'dotenv';
 import { isProd } from '../../utils/env';
 
@@ -15,7 +15,7 @@ export const logger = createLogger({
             ? new transports.Console({
                   format: format.combine(
                       format.colorize(),
-                      format.timestamp(),
+                      format.timestamp({ format: 'YYYY-MM-DD HH:mm:ss' }),
                       format.align(),
                       format.printf((info) => `${info.timestamp} ${info.level}: ${info.message}`)
                   ),
