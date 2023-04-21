@@ -1,9 +1,9 @@
 import { Markup, Telegraf } from 'telegraf';
 import dotenv from 'dotenv';
 import getTranslatedCompliment from './service/translatedCompliment';
-import { isDev } from './utils/env';
 import t from './service/locales';
 import { Locale } from './service/locales/types';
+import allowDeveloperOnlyDuringDevelopment from './middleware/devonly';
 
 const LOCALE: Locale = 'ua';
 
@@ -14,18 +14,10 @@ dotenv.config();
 if (!process.env.BOT_TOKEN) throw new Error('BOT_TOKEN is not defined');
 const bot = new Telegraf(process.env.BOT_TOKEN);
 
+// MIDDLEWARE
+bot.use(allowDeveloperOnlyDuringDevelopment);
+
 // HANDLERS
-
-bot.use(async (ctx, next) => {
-    // blocks all users except the developer if environment is development
-    if (!isDev) return next();
-
-    if (!process.env.DEVELOPER_TELEGRAM_ID) throw new Error('DEVELOPER_TELEGRAM_ID is not defined');
-    if (ctx.from?.id === parseInt(process.env.DEVELOPER_TELEGRAM_ID)) return next();
-
-    console.log(`${ctx.from?.first_name ?? 'Someone'} tried to use the bot during development but was not allowed`);
-});
-
 bot.start((ctx) => {
     console.log(`${ctx.from.first_name} started the bot`);
 
