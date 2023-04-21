@@ -1,5 +1,6 @@
 import { Middleware, Context } from 'telegraf';
 import { isDev } from '../utils/env';
+import logger from '../service/logger';
 
 /**
  * Restricts access to the bot to the developer only during development
@@ -12,7 +13,7 @@ export const allowDeveloperOnlyDuringDevelopment: Middleware<Context> = async (c
     if (!process.env.DEVELOPER_TELEGRAM_ID) throw new Error('DEVELOPER_TELEGRAM_ID is not defined');
     if (ctx.from?.id === parseInt(process.env.DEVELOPER_TELEGRAM_ID)) return next();
 
-    console.log(`${ctx.from?.first_name ?? 'Someone'} tried to use the bot during development but was not allowed`);
+    logger.info(`${ctx.from?.first_name ?? 'Someone'} tried to use the bot during development but was not allowed`);
 };
 
 export default allowDeveloperOnlyDuringDevelopment;
