@@ -4,6 +4,7 @@ import getTranslatedCompliment from './service/translatedCompliment';
 import t from './service/locales';
 import { Locale } from './service/locales/types';
 import allowDeveloperOnlyDuringDevelopment from './middleware/devonly';
+import logger from './service/logger';
 
 const LOCALE: Locale = 'ua';
 
@@ -19,7 +20,7 @@ bot.use(allowDeveloperOnlyDuringDevelopment);
 
 // HANDLERS
 bot.start((ctx) => {
-    console.log(`${ctx.from.first_name} started the bot`);
+    logger.info(`${ctx.from.first_name} started the bot`);
 
     const welcomeMsg = t(LOCALE, 'common', 'welcome', { who: ctx.from.first_name });
     const iWantCompliment = t(LOCALE, 'common', 'i_want_compliment_button');
@@ -28,7 +29,7 @@ bot.start((ctx) => {
 });
 
 bot.on('callback_query', async (ctx) => {
-    console.log(`${ctx.from?.first_name ?? 'Someone'} asked for a compliment`);
+    logger.info(`${ctx.from?.first_name ?? 'Someone'} asked for a compliment`);
 
     if (ctx.callbackQuery) ctx.answerCbQuery();
 
@@ -42,7 +43,9 @@ bot.on('callback_query', async (ctx) => {
 // launch the bot
 bot.launch();
 
-bot.catch((err) => console.error(err));
+bot.catch((err) => {
+    logger.error(err);
+});
 
 // enable graceful stop
 process.once('SIGINT', () => bot.stop('SIGINT'));
