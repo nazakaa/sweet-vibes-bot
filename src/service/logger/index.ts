@@ -11,23 +11,18 @@ export const logger = createLogger({
     format: winston.format.json(),
     defaultMeta: { service: 'user-service' },
     transports: [
-        isProd
-            ? new transports.Console({
-                  format: format.combine(
-                      format.colorize(),
-                      format.timestamp({ format: 'YYYY-MM-DD HH:mm:ss' }),
-                      format.align(),
-                      format.printf((info) => `${info.timestamp} ${info.level}: ${info.message}`)
-                  ),
-              })
-            : new transports.Console({
-                  format: winston.format.combine(
-                      format.colorize(),
-                      format.align(),
-                      format.printf((info) => `${info.level}: ${info.message}`)
-                  ),
-              }),
-
+        new transports.Console({
+            format: format.combine(
+                format.colorize({ all: true }),
+                format.timestamp({ format: 'YYYY-MM-DD HH:mm:ss' }),
+                format.errors({ stack: true }),
+                format.align(),
+                format.printf((info) => {
+                    if (isProd) return `${info.timestamp} ${info.level}: ${info.message}`;
+                    return `${info.level}: ${info.message}`;
+                })
+            ),
+        }),
         new transports.File({ filename: 'logs/error.log', level: 'error' }),
         new transports.File({ filename: 'logs/combined.log' }),
         // new TelegramTransport({
