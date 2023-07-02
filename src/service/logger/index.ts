@@ -7,7 +7,7 @@ import { isProd } from '../../utils/env';
 dotenv.config();
 
 export const logger = createLogger({
-    level: 'info',
+    level: isProd ? 'info' : 'debug',
     format: winston.format.json(),
     defaultMeta: { service: 'user-service' },
     transports: [

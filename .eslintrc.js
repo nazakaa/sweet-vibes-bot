@@ -9,7 +9,7 @@ module.exports = {
     rules: {
         '@typescript-eslint/no-non-null-assertion': 'warn',
         '@typescript-eslint/no-floating-promises': 'off',
-        // '@typescript-eslint/no-unsafe-argument': 'off',
+        '@typescript-eslint/no-unsafe-argument': 'off',
         '@typescript-eslint/no-explicit-any': 'off',
         '@typescript-eslint/no-unsafe-member-access': 'off',
         '@typescript-eslint/no-unsafe-assignment': 'off',
@@ -18,6 +18,8 @@ module.exports = {
         'prefer-const': 'warn',
         '@typescript-eslint/no-unsafe-call': 'off',
         '@typescript-eslint/restrict-template-expressions': 'off',
+        '@typescript-eslint/ban-ts-comment': 'warn',
+        '@typescript-eslint/no-unsafe-return': 'warn',
     },
     parserOptions: {
         project: true,

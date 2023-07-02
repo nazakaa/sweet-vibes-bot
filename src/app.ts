@@ -1,22 +1,30 @@
-import { Markup, Telegraf } from 'telegraf';
-import dotenv from 'dotenv';
+import { Markup, Telegraf, Context } from 'telegraf';
+
 import getTranslatedCompliment from './service/translatedCompliment';
 import t from './service/locales';
 import { Locale } from './service/locales/types';
-import allowDeveloperOnlyDuringDevelopment from './middleware/devonly';
 import logger from './service/logger';
-
-const LOCALE: Locale = 'ua';
+import { config as loadEnv } from 'dotenv';
+import SceneContextScene, { SceneSessionData } from 'telegraf/typings/scenes/context';
 
 // initialize environment variables
-dotenv.config();
+loadEnv();
+
+export interface MyContext extends Context {
+    // scene: any;
+    // wizard: any;
+    // scene?: SceneContextScene<MyContext, WizardSessionData>;
+    // wizard?: WizardContextWizard<MyContext>;
+    scene?: SceneContextScene<MyContext, SceneSessionData>;
+    session?: any;
+}
+
+// Default locale - tmp
+const LOCALE: Locale = 'ua';
 
 // initialize the bot
 if (!process.env.BOT_TOKEN) throw new Error('BOT_TOKEN is not defined');
-const bot = new Telegraf(process.env.BOT_TOKEN);
-
-// MIDDLEWARE
-bot.use(allowDeveloperOnlyDuringDevelopment);
+const bot = new Telegraf<MyContext>(process.env.BOT_TOKEN);
 
 // HANDLERS
 bot.start((ctx) => {
@@ -28,7 +36,7 @@ bot.start((ctx) => {
     ctx.reply(welcomeMsg, Markup.inlineKeyboard([{ callback_data: 'get_compliment', text: iWantCompliment }]));
 });
 
-bot.on('callback_query', async (ctx) => {
+bot.action('get_compliment', async (ctx) => {
     logger.info(`${ctx.from?.first_name ?? 'Someone'} asked for a compliment`);
 
     if (ctx.callbackQuery) ctx.answerCbQuery();
@@ -44,7 +52,8 @@ bot.on('callback_query', async (ctx) => {
 bot.launch();
 
 bot.catch((err) => {
-    logger.error(err);
+    console.error(err);
+    // logger.error(err);
 });
 
 // enable graceful stop
